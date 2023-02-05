@@ -1,2 +1,2 @@
 # cadastral-to-openstreetmap
-A tool for generating map areas on OpenStreetMap based on cadastral numbers.
+A tool for generating map areas on OpenStreetMap based on cadastral numbers. The tool allows you to extract geographical information from cadastral numbers and display it on the OpenStreetMap platform, providing a visual representation of property boundaries and ownership. The tool makes it easier for users to search for and view specific properties on the map, and helps to improve the accuracy and completeness of the OpenStreetMap database.
