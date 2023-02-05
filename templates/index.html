@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Cadastral Number Form</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Enter Cadastral Number</h1>
+      <form action="/cadastral_number" method="post">
+        <input type="text" id="cadastral_number" name="cadastral_number" placeholder="Cadastral Number">
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+  </body>
+</html>
