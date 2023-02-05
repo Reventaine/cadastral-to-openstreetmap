@@ -4,6 +4,7 @@ from rosreestr2coord import Area
 
 pp = pprint.PrettyPrinter(indent=4)
 
+# credentials for OpenStreetMap:
 api = osmapi.OsmApi(api="https://www.openstreetmap.org", username=u"Reventaine", password=u"A2480353bc")
 
 # test coordinates:
@@ -14,8 +15,13 @@ def create_area():
     with api.Changeset({u"comment": u"Add"}) as changeset_id:
         print(f"Part of Changeset {changeset_id}")
 
+        # creates list of nodes for an area:
         ids = [api.NodeCreate({u"lon": k, u"lat": v, u"tag": {}})['id'] for k, v in nodes.items()]
+
+        # adds the first node at the end of list of nodes to get a closed area:
         ids.append(ids[0])
+
+        # creates an area from list of nodes:
         ways = api.WayCreate({
             'nd': ids,
             'tag': {
