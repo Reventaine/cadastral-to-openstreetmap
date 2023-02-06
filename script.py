@@ -1,22 +1,42 @@
-import osmapi
-import pprint
-from rosreestr2coord import Area
-
-pp = pprint.PrettyPrinter(indent=4)
-
-# credentials for OpenStreetMap:
-api = osmapi.OsmApi(api="https://www.openstreetmap.org", username=u"Reventaine", password=u"A2480353bc")
-
-# test coordinates:
-nodes = {41.9119731: 42.2708720, 41.9143203: 42.2723311, 41.9119411: 42.2734040, 41.9109411: 42.2704040}
+from config import api
 
 
-def create_area():
-    with api.Changeset({u"comment": u"Add"}) as changeset_id:
-        print(f"Part of Changeset {changeset_id}")
+def get_coord(cadastral):
+    from rosreestr2coord import Area
+    import webbrowser
+    try:
+        area = Area(cadastral, with_proxy=True).get_coord()
+        return list_to_dict(area)
+    except:
+        area = Area(cadastral, with_proxy=True).get_coord()
+        url = f'https://pkk.rosreestr.ru/api/features/1/{cadastral}'
+        webbrowser.open(url)
+        return list_to_dict(area)
+
+
+def list_to_dict(lst):
+    # ensures that output from the cadastral will be in form of {lon: lat, ...}
+    result = {}
+    i = 0
+    while i < len(lst):
+        if isinstance(lst[i], list):
+            nested_dict = list_to_dict(lst[i])
+            for key in nested_dict.keys():
+                result[key] = nested_dict[key]
+            i += 1
+        else:
+            result[lst[i]] = lst[i + 1]
+            i += 2
+    return result
+
+
+def create_area(cadastral):
+    import rosreestr2coord
+    with api.Changeset({u"comment": u"Test area from Rosreestr"}):
+        coords = get_coord(cadastral)
 
         # creates list of nodes for an area:
-        ids = [api.NodeCreate({u"lon": k, u"lat": v, u"tag": {}})['id'] for k, v in nodes.items()]
+        ids = [api.NodeCreate({u"lon": k, u"lat": v, u"tag": {}})['id'] for k, v in coords.items()]
 
         # adds the first node at the end of list of nodes to get a closed area:
         ids.append(ids[0])
@@ -25,23 +45,27 @@ def create_area():
         ways = api.WayCreate({
             'nd': ids,
             'tag': {
-                'landuse': 'forest',
-                'name': 'TestForest',
+                'landuse': 'construction',
+                'util_by_doc': rosreestr2coord.Area('38:06:144003:4723').get_attrs()['util_by_doc'],
+                'name': 'Test_Cad',
                 'is_in:country': 'Russia',
             }})
 
-        print(ways)
+        return ways['id']
 
 
-# create_area()
-# shows the list of nodes:
-# pp.pprint(api.WayGet(4305976864))
+def get_X_Y(cadastral):
+    id = create_area(cadastral)
+    way = api.WayFull(id)[0]['data']
+    return way['lon'], way['lat']
 
-# shows list of nodes with lat and lon:
-# pp.pprint(api.NodeGet(4332663959))
 
-# shows changeset:
-# pp.pprint(api.ChangesetGet(253220))
+def get_X(cadastral):
+    return get_X_Y(cadastral)[0]
 
-# shows entire information for area:
-# pp.pprint(api.WayFull(26471061))
+
+def get_Y(cadastral):
+    return get_X_Y(cadastral)[1]
+
+
+
