@@ -11,7 +11,6 @@ def get_coord(cadastral):
         area = Area(cadastral, with_proxy=True).get_coord()
         url = f'https://pkk.rosreestr.ru/api/features/1/{cadastral}'
         webbrowser.open(url)
-        return list_to_dict(area)
 
 
 def list_to_dict(lst):
@@ -46,7 +45,7 @@ def create_area(cadastral):
             'nd': ids,
             'tag': {
                 'landuse': 'construction',
-                'util_by_doc': rosreestr2coord.Area('38:06:144003:4723').get_attrs()['util_by_doc'],
+                'назначение': rosreestr2coord.Area('38:06:144003:4723').get_attrs()['util_by_doc'],
                 'name': 'Test_Cad',
                 'is_in:country': 'Russia',
             }})
