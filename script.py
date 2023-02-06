@@ -46,7 +46,8 @@ def create_area(cadastral):
             'nd': ids,
             'tag': {
                 'landuse': 'construction',
-                'назначение': rosreestr2coord.Area('38:06:144003:4723').get_attrs()['util_by_doc'],
+                'назначение': rosreestr2coord.Area(cadastral).get_attrs()['util_by_doc'],
+                'cadastral_number': cadastral,
                 'name': 'Test_Cad',
                 'is_in:country': 'Russia',
             }})
