@@ -1,4 +1,5 @@
 import osmapi
 
 # credentials for OpenStreetMap:
-api = osmapi.OsmApi(api="https://www.openstreetmap.org", username=u"Reventaine", password=u"A2480353bc")
+# There is several different api of openstreetmap, this is public api, do not use it for testing
+api = osmapi.OsmApi(api="https://www.openstreetmap.org", username=u"USERNAME", password=u"PASSWORD")
