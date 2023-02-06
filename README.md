@@ -8,5 +8,5 @@ pip install -r requirements.txt
 
 ## Usage
 
-To run the application, navigate to the project directory and run the following command in your terminal: <i>python webapp.py</i> <br>
+To run the application, navigate to the project directory and run the following command in your terminal: <br><i>python webapp.py</i> <br>
 This will start the Flask development server and you can access the application in your web browser at http://localhost:5000.
