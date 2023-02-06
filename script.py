@@ -11,6 +11,7 @@ def get_coord(cadastral):
         area = Area(cadastral, with_proxy=True).get_coord()
         url = f'https://pkk.rosreestr.ru/api/features/1/{cadastral}'
         webbrowser.open(url)
+        return list_to_dict(area)
 
 
 def list_to_dict(lst):
