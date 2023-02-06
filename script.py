@@ -1,17 +1,18 @@
 from config import api
 
 
-def get_coord(cadastral):
+def get_coordinates(cadastral):
     from rosreestr2coord import Area
     import webbrowser
     try:
-        area = Area(cadastral, with_proxy=True).get_coord()
-        return list_to_dict(area)
+        location = Area(cadastral).get_coord()
+        return list_to_dict(location)
     except:
-        area = Area(cadastral, with_proxy=True).get_coord()
+        # if connection to rosreestr was broken:
+        location = Area(cadastral).get_coord()
         url = f'https://pkk.rosreestr.ru/api/features/1/{cadastral}'
         webbrowser.open(url)
-        return list_to_dict(area)
+        return list_to_dict(location)
 
 
 def list_to_dict(lst):
@@ -31,12 +32,12 @@ def list_to_dict(lst):
 
 
 def create_area(cadastral):
-    import rosreestr2coord
+    from rosreestr2coord import Area
     with api.Changeset({u"comment": u"Test area from Rosreestr"}):
-        coords = get_coord(cadastral)
+        coordinates = get_coordinates(cadastral)
 
         # creates list of nodes for an area:
-        ids = [api.NodeCreate({u"lon": k, u"lat": v, u"tag": {}})['id'] for k, v in coords.items()]
+        ids = [api.NodeCreate({u"lon": k, u"lat": v, u"tag": {}})['id'] for k, v in coordinates.items()]
 
         # adds the first node at the end of list of nodes to get a closed area:
         ids.append(ids[0])
@@ -46,7 +47,7 @@ def create_area(cadastral):
             'nd': ids,
             'tag': {
                 'landuse': 'construction',
-                'назначение': rosreestr2coord.Area(cadastral).get_attrs()['util_by_doc'],
+                'назначение': Area(cadastral).get_attrs()['util_by_doc'],
                 'cadastral_number': cadastral,
                 'name': 'Test_Cad',
                 'is_in:country': 'Russia',
@@ -67,6 +68,3 @@ def get_X(cadastral):
 
 def get_Y(cadastral):
     return get_X_Y(cadastral)[1]
-
-
-
