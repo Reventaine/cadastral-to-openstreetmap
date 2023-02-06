@@ -2,3 +2,7 @@
 /tmp
 debug.log
 /.idea
+config.py
+/__pycache__/
+proxy.txt
+.gitignore
