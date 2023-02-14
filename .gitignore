@@ -5,3 +5,8 @@ debug.log
 config.py
 /__pycache__/
 proxy.txt
+cache.json
+app.yaml
+.flaskenv
+Dockerfile
+/.azure
