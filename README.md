@@ -4,9 +4,9 @@ A tool for generating map areas on OpenStreetMap based on cadastral numbers. The
 ## Installation
 
 To install the required packages, run the following command in your terminal:
-pip install -r requirements.txt
+<code>pip install -r requirements.txt</code>
 
 ## Usage
 
-To run the application, navigate to the project directory and run the following command in your terminal: <br><i>python webapp.py</i> <br>
-This will start the Flask development server and you can access the application in your web browser at http://localhost:5000.
+To run the application, navigate to the project directory and run the following command in your terminal: <br><code>python webapp.py</code> <br>
+This will start the Flask development server and you can access the application in your web browser at <code>http://localhost:5000</code>.
